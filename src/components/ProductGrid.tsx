@@ -1,7 +1,7 @@
-import { useState } from 'react';
-import { Search, SlidersHorizontal } from 'lucide-react';
-import { ProductCard } from './ProductCard';
-import type { Product } from '../App';
+import { useState } from "react";
+import { Search, SlidersHorizontal } from "lucide-react";
+import { ProductCard } from "./ProductCard";
+import type { Product } from "../App";
 
 interface ProductGridProps {
   products: Product[];
@@ -26,30 +26,37 @@ export function ProductGrid({
   sortBy,
   onSortChange,
   onProductClick,
-  onAddToCart
+  onAddToCart,
 }: ProductGridProps) {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
 
+  console.log("products:", products);
+
   // Filter products
-  let filteredProducts = products.filter(product => {
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'All' || product.category === selectedCategory;
-    const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1];
+  let filteredProducts = products.filter((product) => {
+    const matchesSearch =
+      product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "All" || product.category === selectedCategory;
+    const matchesPrice =
+      product.price >= priceRange[0] && product.price <= priceRange[1];
     return matchesSearch && matchesCategory && matchesPrice;
   });
+
+  console.log("filteredProducts:", filteredProducts);
 
   // Sort products
   filteredProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
-      case 'price-low':
+      case "price-low":
         return a.price - b.price;
-      case 'price-high':
+      case "price-high":
         return b.price - a.price;
-      case 'rating':
+      case "rating":
         return b.rating - a.rating;
-      case 'name':
+      case "name":
         return a.name.localeCompare(b.name);
       default:
         return 0;
@@ -104,14 +111,14 @@ export function ProductGrid({
               <div>
                 <h3 className="font-semibold mb-3 text-gray-900">Category</h3>
                 <div className="flex flex-wrap gap-2">
-                  {categories.map(category => (
+                  {categories.map((category) => (
                     <button
                       key={category}
                       onClick={() => onCategoryChange(category)}
                       className={`px-4 py-2 rounded-full transition-colors ${
                         selectedCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                          ? "bg-blue-600 text-white"
+                          : "bg-gray-100 text-gray-700 hover:bg-gray-200"
                       }`}
                     >
                       {category}
@@ -131,7 +138,9 @@ export function ProductGrid({
                     min="0"
                     max="2000"
                     value={priceRange[0]}
-                    onChange={(e) => setPriceRange([Number(e.target.value), priceRange[1]])}
+                    onChange={(e) =>
+                      setPriceRange([Number(e.target.value), priceRange[1]])
+                    }
                     className="w-full"
                   />
                   <input
@@ -139,7 +148,9 @@ export function ProductGrid({
                     min="0"
                     max="2000"
                     value={priceRange[1]}
-                    onChange={(e) => setPriceRange([priceRange[0], Number(e.target.value)])}
+                    onChange={(e) =>
+                      setPriceRange([priceRange[0], Number(e.target.value)])
+                    }
                     className="w-full"
                   />
                 </div>
@@ -152,14 +163,15 @@ export function ProductGrid({
       {/* Results Count */}
       <div className="mb-4">
         <p className="text-gray-600">
-          Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
+          Showing {filteredProducts.length}{" "}
+          {filteredProducts.length === 1 ? "product" : "products"}
         </p>
       </div>
 
       {/* Products Grid */}
       {filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredProducts.map(product => (
+          {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
               product={product}
@@ -170,11 +182,13 @@ export function ProductGrid({
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
+          <p className="text-gray-500 text-lg">
+            No products found matching your criteria.
+          </p>
           <button
             onClick={() => {
-              onSearchChange('');
-              onCategoryChange('All');
+              onSearchChange("");
+              onCategoryChange("All");
               setPriceRange([0, 2000]);
             }}
             className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
