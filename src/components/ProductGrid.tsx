@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { ProductCard } from "./ProductCard";
-import type { Product } from "../App";
+import type { CartItem, Product } from "../App";
 
 interface ProductGridProps {
+  cartItems: CartItem[];
   products: Product[];
   searchQuery: string;
   onSearchChange: (query: string) => void;
@@ -14,9 +15,11 @@ interface ProductGridProps {
   onSortChange: (sort: string) => void;
   onProductClick: (product: Product) => void;
   onAddToCart: (product: Product) => void;
+  onUpdateQuantity: (productId: number, quantity: number) => void;
 }
 
 export function ProductGrid({
+  cartItems,
   products,
   searchQuery,
   onSearchChange,
@@ -27,11 +30,10 @@ export function ProductGrid({
   onSortChange,
   onProductClick,
   onAddToCart,
+  onUpdateQuantity,
 }: ProductGridProps) {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
-
-  console.log("products:", products);
 
   // Filter products
   let filteredProducts = products.filter((product) => {
@@ -45,8 +47,6 @@ export function ProductGrid({
     return matchesSearch && matchesCategory && matchesPrice;
   });
 
-  console.log("filteredProducts:", filteredProducts);
-
   // Sort products
   filteredProducts = [...filteredProducts].sort((a, b) => {
     switch (sortBy) {
@@ -54,8 +54,6 @@ export function ProductGrid({
         return a.price - b.price;
       case "price-high":
         return b.price - a.price;
-      case "rating":
-        return b.rating - a.rating;
       case "name":
         return a.name.localeCompare(b.name);
       default:
@@ -89,7 +87,6 @@ export function ProductGrid({
             <option value="featured">Featured</option>
             <option value="price-low">Price: Low to High</option>
             <option value="price-high">Price: High to Low</option>
-            <option value="rating">Highest Rated</option>
             <option value="name">Name A-Z</option>
           </select>
 
@@ -130,7 +127,7 @@ export function ProductGrid({
               {/* Price Range Filter */}
               <div>
                 <h3 className="font-semibold mb-3 text-gray-900">
-                  Price Range: ${priceRange[0]} - ${priceRange[1]}
+                  Price Range: ₹{priceRange[0]} - ₹{priceRange[1]}
                 </h3>
                 <div className="space-y-2">
                   <input
@@ -174,9 +171,11 @@ export function ProductGrid({
           {filteredProducts.map((product) => (
             <ProductCard
               key={product.id}
+              cartItems={cartItems}
               product={product}
               onClick={() => onProductClick(product)}
               onAddToCart={() => onAddToCart(product)}
+              onUpdateQuantity={onUpdateQuantity}
             />
           ))}
         </div>

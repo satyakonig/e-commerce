@@ -1,26 +1,34 @@
-import { useState } from 'react';
-import { ArrowLeft, Star, ShoppingCart, Minus, Plus, Package, Truck, Shield } from 'lucide-react';
-import type { Product } from '../App';
+import { useState } from "react";
+import {
+  ArrowLeft,
+  ShoppingCart,
+  Minus,
+  Plus,
+  Package,
+  Truck,
+  Shield,
+} from "lucide-react";
+import type { CartItem, Product } from "../App";
 
 interface ProductDetailProps {
+  cartItems: CartItem[];
   product: Product;
   onBack: () => void;
   onAddToCart: (product: Product, quantity: number) => void;
+  onUpdateQuantity: (productId: number, quantity: number) => void;
 }
 
-export function ProductDetail({ product, onBack, onAddToCart }: ProductDetailProps) {
-  const [quantity, setQuantity] = useState(1);
-
-  const handleQuantityChange = (delta: number) => {
-    const newQuantity = quantity + delta;
-    if (newQuantity >= 1 && newQuantity <= product.stock) {
-      setQuantity(newQuantity);
-    }
-  };
+export function ProductDetail({
+  cartItems,
+  product,
+  onBack,
+  onAddToCart,
+  onUpdateQuantity,
+}: ProductDetailProps) {
+  const cartItem = cartItems?.find((cItem) => cItem?.id === product?.id);
 
   const handleAddToCart = () => {
-    onAddToCart(product, quantity);
-    alert(`Added ${quantity} item(s) to cart!`);
+    onAddToCart(product, 1);
   };
 
   return (
@@ -42,12 +50,24 @@ export function ProductDetail({ product, onBack, onAddToCart }: ProductDetailPro
             alt={product.name}
             className="w-full h-full object-cover"
           />
+          {product.stock < 20 && (
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+              Low Stock
+            </div>
+          )}
+          {product.stock <= 0 && (
+            <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
+              Out of Stock
+            </div>
+          )}
         </div>
 
         {/* Product Info */}
         <div className="flex flex-col">
           <div className="mb-4">
-            <span className="text-sm text-blue-600 font-medium">{product.category}</span>
+            <span className="text-sm text-blue-600 font-medium">
+              {product.category}
+            </span>
           </div>
 
           <h1 className="text-3xl font-bold text-gray-900 mb-4">
@@ -55,62 +75,55 @@ export function ProductDetail({ product, onBack, onAddToCart }: ProductDetailPro
           </h1>
 
           <div className="flex items-center gap-2 mb-6">
-            <div className="flex items-center gap-1">
-              {[...Array(5)].map((_, i) => (
-                <Star
-                  key={i}
-                  className={`w-5 h-5 ${
-                    i < Math.floor(product.rating)
-                      ? 'fill-yellow-400 text-yellow-400'
-                      : 'text-gray-300'
-                  }`}
-                />
-              ))}
-            </div>
-            <span className="font-medium text-gray-700">{product.rating}</span>
             <span className="text-gray-500">• {product.stock} in stock</span>
           </div>
 
           <div className="text-4xl font-bold text-gray-900 mb-6">
-            ${product.price.toFixed(2)}
+            ₹{product.price.toFixed(2)}
           </div>
 
           <p className="text-gray-600 mb-8 leading-relaxed">
             {product.description}
           </p>
 
-          {/* Quantity Selector */}
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Quantity
-            </label>
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => handleQuantityChange(-1)}
-                disabled={quantity <= 1}
-                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <Minus className="w-4 h-4" />
-              </button>
-              <span className="text-xl font-semibold w-12 text-center">{quantity}</span>
-              <button
-                onClick={() => handleQuantityChange(1)}
-                disabled={quantity >= product.stock}
-                className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-              >
-                <Plus className="w-4 h-4" />
-              </button>
+          {cartItem?.id ? (
+            <div className="mb-6">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Quantity
+              </label>
+              <div className="flex items-center justify-between">
+                <button
+                  onClick={() => {
+                    onUpdateQuantity(cartItem.id, cartItem.quantity - 1);
+                  }}
+                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Minus className="w-4 h-4" />
+                </button>
+                <span className="text-xl font-semibold w-12 text-center">
+                  {cartItem?.quantity}
+                </span>
+                <button
+                  onClick={() => {
+                    onUpdateQuantity(cartItem.id, cartItem.quantity + 1);
+                  }}
+                  disabled={cartItem.quantity >= cartItem.stock}
+                  className="w-10 h-10 flex items-center justify-center border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                >
+                  <Plus className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          </div>
-
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            className="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg font-semibold mb-8"
-          >
-            <ShoppingCart className="w-6 h-6" />
-            Add to Cart
-          </button>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              className="w-full bg-blue-600 text-white py-4 rounded-lg hover:bg-blue-700 transition-colors flex items-center justify-center gap-2 text-lg font-semibold mb-8"
+              disabled={product.stock <= 0}
+            >
+              <ShoppingCart className="w-6 h-6" />
+              Add to Cart
+            </button>
+          )}
 
           {/* Features */}
           <div className="border-t border-gray-200 pt-6 space-y-4">
@@ -118,7 +131,7 @@ export function ProductDetail({ product, onBack, onAddToCart }: ProductDetailPro
               <Truck className="w-6 h-6 text-blue-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-gray-900">Free Shipping</h3>
-                <p className="text-sm text-gray-600">On orders over $100</p>
+                <p className="text-sm text-gray-600">On orders over ₹100</p>
               </div>
             </div>
 
@@ -126,17 +139,19 @@ export function ProductDetail({ product, onBack, onAddToCart }: ProductDetailPro
               <Package className="w-6 h-6 text-blue-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-gray-900">Easy Returns</h3>
-                <p className="text-sm text-gray-600">30-day return policy</p>
+                <p className="text-sm text-gray-600">7-day return policy</p>
               </div>
             </div>
 
-            <div className="flex items-start gap-3">
+            {/* <div className="flex items-start gap-3">
               <Shield className="w-6 h-6 text-blue-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-gray-900">Warranty</h3>
-                <p className="text-sm text-gray-600">1-year manufacturer warranty</p>
+                <p className="text-sm text-gray-600">
+                  1-year manufacturer warranty
+                </p>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

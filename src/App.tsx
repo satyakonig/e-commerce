@@ -7,7 +7,7 @@ import { Checkout } from "./components/Checkout";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
 import { Admin } from "./components/Admin";
-import { getProducts } from "./util/Api";
+import { getProducts, saveOrUpdateProduct } from "./util/Api";
 
 export interface Product {
   id: number;
@@ -16,12 +16,15 @@ export interface Product {
   category: string;
   image: string;
   description: string;
-  rating: number;
   stock: number;
 }
 
 export interface CartItem extends Product {
   quantity: number;
+}
+
+export interface PostApiResponse {
+  success: boolean;
 }
 
 // const products: Product[] = [
@@ -142,10 +145,23 @@ export default function App() {
   const [productList, setProductList] = useState<Product[]>([]);
 
   useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const fetchProducts = () => {
     getProducts().then((res) => {
       setProductList(res);
     });
-  }, []);
+  };
+
+  const saveProduct = (body: {}) => {
+    saveOrUpdateProduct(body).then((res: PostApiResponse) => {
+      console.log("res:", res);
+      if (res?.success) {
+        fetchProducts();
+      }
+    });
+  };
 
   const categories = [
     "All",
@@ -158,7 +174,7 @@ export default function App() {
       ...product,
       id: Math.max(...productList.map((p) => p.id), 0) + 1,
     };
-    setProductList((prev) => [...prev, newProduct]);
+    saveProduct(newProduct);
   };
 
   const updateProduct = (id: number, updatedProduct: Omit<Product, "id">) => {
@@ -170,9 +186,13 @@ export default function App() {
   };
 
   const deleteProduct = (id: number) => {
-    setProductList((prev) => prev.filter((product) => product.id !== id));
-    // Also remove from cart if it exists
-    setCart((prev) => prev.filter((item) => item.id !== id));
+    let body = {
+      apiKey: "e-com-test",
+      action: "DELETE",
+      id: id,
+    };
+    console.log("body:", body);
+    saveProduct(body);
   };
 
   const addToCart = (product: Product, quantity: number = 1) => {
@@ -246,6 +266,7 @@ export default function App() {
       <main className="pt-16">
         {currentView === "products" && (
           <ProductGrid
+            cartItems={cart}
             products={productList}
             searchQuery={searchQuery}
             onSearchChange={setSearchQuery}
@@ -256,14 +277,17 @@ export default function App() {
             onSortChange={setSortBy}
             onProductClick={handleProductClick}
             onAddToCart={addToCart}
+            onUpdateQuantity={updateCartItemQuantity}
           />
         )}
 
         {currentView === "detail" && selectedProduct && (
           <ProductDetail
+            cartItems={cart}
             product={selectedProduct}
             onBack={() => setCurrentView("products")}
             onAddToCart={addToCart}
+            onUpdateQuantity={updateCartItemQuantity}
           />
         )}
 

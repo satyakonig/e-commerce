@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { ArrowLeft, Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { useState } from "react";
+import { ArrowLeft, Mail, Phone, MapPin, Clock, Send } from "lucide-react";
 
 interface ContactProps {
   onBack: () => void;
@@ -7,26 +7,28 @@ interface ContactProps {
 
 export function Contact({ onBack }: ContactProps) {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
   });
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Contact form submitted:', formData);
+    console.log("Contact form submitted:", formData);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
+      setFormData({ name: "", email: "", subject: "", message: "" });
     }, 3000);
   };
 
@@ -65,7 +67,7 @@ export function Contact({ onBack }: ContactProps) {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Phone</h3>
-                <p className="text-gray-600">+1 (555) 123-4567</p>
+                <p className="text-gray-600">+91 9876543210</p>
                 <p className="text-gray-600">Mon-Fri, 9AM-6PM EST</p>
               </div>
             </div>
@@ -77,9 +79,11 @@ export function Contact({ onBack }: ContactProps) {
               <div>
                 <h3 className="font-semibold text-gray-900 mb-1">Address</h3>
                 <p className="text-gray-600">
-                  123 Tech Street<br />
-                  San Francisco, CA 94102<br />
-                  United States
+                  123 Tech Street
+                  <br />
+                  Narsipatnam, Visakhapatnam
+                  <br />
+                  India
                 </p>
               </div>
             </div>
@@ -89,7 +93,9 @@ export function Contact({ onBack }: ContactProps) {
                 <Clock className="w-6 h-6 text-blue-600" />
               </div>
               <div>
-                <h3 className="font-semibold text-gray-900 mb-1">Business Hours</h3>
+                <h3 className="font-semibold text-gray-900 mb-1">
+                  Business Hours
+                </h3>
                 <p className="text-gray-600">Monday - Friday: 9AM - 6PM</p>
                 <p className="text-gray-600">Saturday: 10AM - 4PM</p>
                 <p className="text-gray-600">Sunday: Closed</p>
@@ -102,9 +108,7 @@ export function Contact({ onBack }: ContactProps) {
             <h3 className="font-semibold text-gray-900 mb-3">Quick Answers</h3>
             <ul className="space-y-2 text-sm text-gray-600">
               <li>• Shipping typically takes 3-5 business days</li>
-              <li>• Free returns within 30 days</li>
-              <li>• All products come with warranty</li>
-              <li>• We accept all major credit cards</li>
+              <li>• Free returns within 7 days</li>
             </ul>
           </div>
         </div>
@@ -112,21 +116,28 @@ export function Contact({ onBack }: ContactProps) {
         {/* Contact Form */}
         <div className="lg:col-span-2">
           <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Send us a Message</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-6">
+              Send us a Message
+            </h2>
 
             {submitted ? (
               <div className="bg-green-50 border border-green-200 text-green-800 rounded-lg p-6 text-center">
                 <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
                   <Send className="w-8 h-8 text-green-600" />
                 </div>
-                <h3 className="text-xl font-semibold mb-2">Thank you for contacting us!</h3>
+                <h3 className="text-xl font-semibold mb-2">
+                  Thank you for contacting us!
+                </h3>
                 <p>We'll get back to you as soon as possible.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="name"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Your Name *
                     </label>
                     <input
@@ -141,7 +152,10 @@ export function Contact({ onBack }: ContactProps) {
                   </div>
 
                   <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                    <label
+                      htmlFor="email"
+                      className="block text-sm font-medium text-gray-700 mb-2"
+                    >
                       Email Address *
                     </label>
                     <input
@@ -157,7 +171,10 @@ export function Contact({ onBack }: ContactProps) {
                 </div>
 
                 <div>
-                  <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="subject"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Subject *
                   </label>
                   <input
@@ -172,7 +189,10 @@ export function Contact({ onBack }: ContactProps) {
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-2">
+                  <label
+                    htmlFor="message"
+                    className="block text-sm font-medium text-gray-700 mb-2"
+                  >
                     Message *
                   </label>
                   <textarea

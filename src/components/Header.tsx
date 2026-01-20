@@ -1,5 +1,5 @@
-import { ShoppingCart, Store, Menu, X } from 'lucide-react';
-import { useState } from 'react';
+import { ShoppingCart, Store, Menu, X } from "lucide-react";
+import { useState } from "react";
 
 interface HeaderProps {
   cartItemCount: number;
@@ -11,7 +11,15 @@ interface HeaderProps {
   onAdminClick?: () => void;
 }
 
-export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, onAboutClick, onContactClick, onAdminClick }: HeaderProps) {
+export function Header({
+  cartItemCount,
+  onCartClick,
+  onLogoClick,
+  currentView,
+  onAboutClick,
+  onContactClick,
+  onAdminClick,
+}: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleNavClick = (callback?: () => void) => {
@@ -29,7 +37,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
             className="flex items-center gap-2 hover:opacity-80 transition-opacity"
           >
             <Store className="w-8 h-8 text-blue-600" />
-            <span className="text-xl font-semibold text-gray-900">TechStore</span>
+            <span className="text-xl font-semibold text-gray-900">
+              TechStore
+            </span>
           </button>
 
           {/* Desktop Navigation */}
@@ -37,9 +47,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
             <button
               onClick={onLogoClick}
               className={`transition-colors ${
-                currentView === 'products' || currentView === 'detail'
-                  ? 'text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                currentView === "products" || currentView === "detail"
+                  ? "text-blue-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Products
@@ -47,9 +57,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
             <button
               onClick={onAboutClick}
               className={`transition-colors ${
-                currentView === 'about'
-                  ? 'text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                currentView === "about"
+                  ? "text-blue-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               About
@@ -57,9 +67,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
             <button
               onClick={onContactClick}
               className={`transition-colors ${
-                currentView === 'contact'
-                  ? 'text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                currentView === "contact"
+                  ? "text-blue-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Contact
@@ -67,9 +77,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
             <button
               onClick={onAdminClick}
               className={`transition-colors ${
-                currentView === 'admin'
-                  ? 'text-blue-600'
-                  : 'text-gray-600 hover:text-gray-900'
+                currentView === "admin"
+                  ? "text-blue-600"
+                  : "text-gray-600 hover:text-gray-900"
               }`}
             >
               Admin
@@ -112,9 +122,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
               <button
                 onClick={() => handleNavClick(onLogoClick)}
                 className={`text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentView === 'products' || currentView === 'detail'
-                    ? 'bg-blue-50 text-blue-600 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50'
+                  currentView === "products" || currentView === "detail"
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 Products
@@ -122,9 +132,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
               <button
                 onClick={() => handleNavClick(onAboutClick)}
                 className={`text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentView === 'about'
-                    ? 'bg-blue-50 text-blue-600 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50'
+                  currentView === "about"
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 About
@@ -132,9 +142,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
               <button
                 onClick={() => handleNavClick(onContactClick)}
                 className={`text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentView === 'contact'
-                    ? 'bg-blue-50 text-blue-600 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50'
+                  currentView === "contact"
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 Contact
@@ -142,9 +152,9 @@ export function Header({ cartItemCount, onCartClick, onLogoClick, currentView, o
               <button
                 onClick={() => handleNavClick(onAdminClick)}
                 className={`text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentView === 'admin'
-                    ? 'bg-blue-50 text-blue-600 font-medium'
-                    : 'text-gray-600 hover:bg-gray-50'
+                  currentView === "admin"
+                    ? "bg-blue-50 text-blue-600 font-medium"
+                    : "text-gray-600 hover:bg-gray-50"
                 }`}
               >
                 Admin

@@ -1,53 +1,59 @@
-import { useState } from 'react';
-import { ArrowLeft, Plus, Edit2, Trash2, Save, X } from 'lucide-react';
-import type { Product } from '../App';
+import { useState } from "react";
+import { ArrowLeft, Plus, Edit2, Trash2, Save, X } from "lucide-react";
+import type { Product } from "../App";
 
 interface AdminProps {
   products: Product[];
-  onAddProduct: (product: Omit<Product, 'id'>) => void;
-  onUpdateProduct: (id: number, product: Omit<Product, 'id'>) => void;
+  onAddProduct: (product: Omit<Product, "id">) => void;
+  onUpdateProduct: (id: number, product: Omit<Product, "id">) => void;
   onDeleteProduct: (id: number) => void;
   onBack: () => void;
 }
 
-type FormMode = 'add' | 'edit' | null;
+type FormMode = "add" | "edit" | null;
 
-export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct, onBack }: AdminProps) {
+export function Admin({
+  products,
+  onAddProduct,
+  onUpdateProduct,
+  onDeleteProduct,
+  onBack,
+}: AdminProps) {
   const [formMode, setFormMode] = useState<FormMode>(null);
   const [editingProductId, setEditingProductId] = useState<number | null>(null);
-  const [formData, setFormData] = useState<Omit<Product, 'id'>>({
-    name: '',
+  const [formData, setFormData] = useState<Omit<Product, "id">>({
+    name: "",
     price: 0,
-    category: '',
-    image: '',
-    description: '',
-    rating: 5,
-    stock: 0
+    category: "",
+    image: "",
+    description: "",
+    stock: 0,
   });
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: name === 'price' || name === 'rating' || name === 'stock' ? Number(value) : value
+      [name]: name === "price" || name === "stock" ? Number(value) : value,
     }));
   };
 
   const handleAddProduct = () => {
-    setFormMode('add');
+    setFormMode("add");
     setFormData({
-      name: '',
+      name: "",
       price: 0,
-      category: '',
-      image: '',
-      description: '',
-      rating: 5,
-      stock: 0
+      category: "",
+      image: "",
+      description: "",
+      stock: 0,
     });
   };
 
   const handleEditProduct = (product: Product) => {
-    setFormMode('edit');
+    setFormMode("edit");
     setEditingProductId(product.id);
     setFormData({
       name: product.name,
@@ -55,22 +61,21 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
       category: product.category,
       image: product.image,
       description: product.description,
-      rating: product.rating,
-      stock: product.stock
+      stock: product.stock,
     });
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (formMode === 'add') {
+
+    if (formMode === "add") {
       onAddProduct(formData);
-      alert('Product added successfully!');
-    } else if (formMode === 'edit' && editingProductId) {
+      alert("Product added successfully!");
+    } else if (formMode === "edit" && editingProductId) {
       onUpdateProduct(editingProductId, formData);
-      alert('Product updated successfully!');
+      alert("Product updated successfully!");
     }
-    
+
     setFormMode(null);
     setEditingProductId(null);
   };
@@ -83,7 +88,7 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
   const handleDelete = (id: number, name: string) => {
     if (confirm(`Are you sure you want to delete "${name}"?`)) {
       onDeleteProduct(id);
-      alert('Product deleted successfully!');
+      alert("Product deleted successfully!");
     }
   };
 
@@ -99,9 +104,8 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
             <ArrowLeft className="w-5 h-5" />
             <span>Back</span>
           </button>
-          <h1 className="text-3xl font-bold text-gray-900">Product Management</h1>
         </div>
-        
+
         {!formMode && (
           <button
             onClick={handleAddProduct}
@@ -118,7 +122,7 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
         <div className="bg-white rounded-lg shadow-md p-6 mb-8">
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-semibold text-gray-900">
-              {formMode === 'add' ? 'Add New Product' : 'Edit Product'}
+              {formMode === "add" ? "Add New Product" : "Edit Product"}
             </h2>
             <button
               onClick={handleCancel}
@@ -131,7 +135,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Product Name *
                 </label>
                 <input
@@ -146,7 +153,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
               </div>
 
               <div>
-                <label htmlFor="category" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="category"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Category *
                 </label>
                 <input
@@ -161,8 +171,11 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
               </div>
 
               <div>
-                <label htmlFor="price" className="block text-sm font-medium text-gray-700 mb-2">
-                  Price ($) *
+                <label
+                  htmlFor="price"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
+                  Price (₹) *
                 </label>
                 <input
                   type="number"
@@ -178,7 +191,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
               </div>
 
               <div>
-                <label htmlFor="stock" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="stock"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Stock Quantity *
                 </label>
                 <input
@@ -194,25 +210,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
               </div>
 
               <div>
-                <label htmlFor="rating" className="block text-sm font-medium text-gray-700 mb-2">
-                  Rating (1-5) *
-                </label>
-                <input
-                  type="number"
-                  id="rating"
-                  name="rating"
-                  value={formData.rating}
-                  onChange={handleInputChange}
-                  required
-                  step="0.1"
-                  min="1"
-                  max="5"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none"
-                />
-              </div>
-
-              <div>
-                <label htmlFor="image" className="block text-sm font-medium text-gray-700 mb-2">
+                <label
+                  htmlFor="image"
+                  className="block text-sm font-medium text-gray-700 mb-2"
+                >
                   Image URL *
                 </label>
                 <input
@@ -229,7 +230,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
             </div>
 
             <div>
-              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+              <label
+                htmlFor="description"
+                className="block text-sm font-medium text-gray-700 mb-2"
+              >
                 Description *
               </label>
               <textarea
@@ -249,7 +253,7 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
                 className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
               >
                 <Save className="w-5 h-5" />
-                {formMode === 'add' ? 'Add Product' : 'Save Changes'}
+                {formMode === "add" ? "Add Product" : "Save Changes"}
               </button>
               <button
                 type="button"
@@ -282,16 +286,16 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
                   Stock
                 </th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Rating
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {products.map(product => (
-                <tr key={product.id} className="hover:bg-gray-50 transition-colors">
+              {products.map((product) => (
+                <tr
+                  key={product.id}
+                  className="hover:bg-gray-50 transition-colors"
+                >
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div className="h-12 w-12 flex-shrink-0 bg-gray-100 rounded overflow-hidden">
@@ -318,17 +322,12 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-semibold text-gray-900">
-                      ${product.price.toFixed(2)}
+                      ₹{product.price.toFixed(2)}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">
                       {product.stock} units
-                    </div>
-                  </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="text-sm text-gray-900">
-                      {product.rating} ⭐
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -357,7 +356,9 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
 
         {products.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">No products available. Add your first product!</p>
+            <p className="text-gray-500 text-lg">
+              No products available. Add your first product!
+            </p>
           </div>
         )}
       </div>
@@ -366,7 +367,9 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
       <div className="mt-6 bg-blue-50 rounded-lg p-6">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
           <div>
-            <div className="text-3xl font-bold text-blue-600">{products.length}</div>
+            <div className="text-3xl font-bold text-blue-600">
+              {products.length}
+            </div>
             <div className="text-sm text-gray-600 mt-1">Total Products</div>
           </div>
           <div>
@@ -377,7 +380,10 @@ export function Admin({ products, onAddProduct, onUpdateProduct, onDeleteProduct
           </div>
           <div>
             <div className="text-3xl font-bold text-blue-600">
-              ${products.reduce((sum, p) => sum + (p.price * p.stock), 0).toFixed(2)}
+              ₹
+              {products
+                .reduce((sum, p) => sum + p.price * p.stock, 0)
+                .toFixed(2)}
             </div>
             <div className="text-sm text-gray-600 mt-1">Inventory Value</div>
           </div>

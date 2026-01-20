@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import { ArrowLeft, CreditCard, Lock } from 'lucide-react';
-import type { CartItem } from '../App';
+import { useState } from "react";
+import { ArrowLeft, CreditCard, Lock } from "lucide-react";
+import type { CartItem } from "../App";
 
 interface CheckoutProps {
   cart: CartItem[];
@@ -17,51 +17,60 @@ export interface CheckoutFormData {
   city: string;
   state: string;
   zipCode: string;
-  cardNumber: string;
-  expiryDate: string;
-  cvv: string;
+  // cardNumber: string;
+  // expiryDate: string;
+  // cvv: string;
 }
 
-export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) {
+export function Checkout({
+  cart,
+  totalPrice,
+  onBack,
+  onSubmit,
+}: CheckoutProps) {
   const [formData, setFormData] = useState<CheckoutFormData>({
-    name: '',
-    email: '',
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    zipCode: '',
-    cardNumber: '',
-    expiryDate: '',
-    cvv: ''
+    name: "",
+    email: "",
+    phone: "",
+    address: "",
+    city: "",
+    state: "",
+    zipCode: "",
+    // cardNumber: "",
+    // expiryDate: "",
+    // cvv: "",
   });
 
   const [errors, setErrors] = useState<Partial<CheckoutFormData>>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
     // Clear error when user starts typing
     if (errors[name as keyof CheckoutFormData]) {
-      setErrors(prev => ({ ...prev, [name]: '' }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
   const validateForm = () => {
     const newErrors: Partial<CheckoutFormData> = {};
 
-    if (!formData.name.trim()) newErrors.name = 'Name is required';
-    if (!formData.email.trim()) newErrors.email = 'Email is required';
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Email is invalid';
-    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
-    else if (!/^\d{10,}$/.test(formData.phone.replace(/\D/g, ''))) newErrors.phone = 'Phone number is invalid';
-    if (!formData.address.trim()) newErrors.address = 'Address is required';
-    if (!formData.city.trim()) newErrors.city = 'City is required';
-    if (!formData.state.trim()) newErrors.state = 'State is required';
-    if (!formData.zipCode.trim()) newErrors.zipCode = 'ZIP code is required';
-    if (!formData.cardNumber.trim()) newErrors.cardNumber = 'Card number is required';
-    if (!formData.expiryDate.trim()) newErrors.expiryDate = 'Expiry date is required';
-    if (!formData.cvv.trim()) newErrors.cvv = 'CVV is required';
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) newErrors.email = "Email is required";
+    else if (!/\S+@\S+\.\S+/.test(formData.email))
+      newErrors.email = "Email is invalid";
+    if (!formData.phone.trim()) newErrors.phone = "Phone number is required";
+    else if (!/^\d{10,}$/.test(formData.phone.replace(/\D/g, "")))
+      newErrors.phone = "Phone number is invalid";
+    if (!formData.address.trim()) newErrors.address = "Address is required";
+    if (!formData.city.trim()) newErrors.city = "City is required";
+    if (!formData.state.trim()) newErrors.state = "State is required";
+    if (!formData.zipCode.trim()) newErrors.zipCode = "ZIP code is required";
+    // if (!formData.cardNumber.trim())
+    //   newErrors.cardNumber = "Card number is required";
+    // if (!formData.expiryDate.trim())
+    //   newErrors.expiryDate = "Expiry date is required";
+    // if (!formData.cvv.trim()) newErrors.cvv = "CVV is required";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -74,7 +83,8 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
     }
   };
 
-  const finalTotal = totalPrice + (totalPrice > 100 ? 0 : 9.99) + totalPrice * 0.08;
+  const finalTotal =
+    totalPrice + (totalPrice > 100 ? 0 : 9.99) + totalPrice * 0.08;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -94,10 +104,15 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
         <form onSubmit={handleSubmit} className="lg:col-span-2 space-y-6">
           {/* Contact Information */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Contact Information</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Contact Information
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Full Name *
                 </label>
                 <input
@@ -107,14 +122,19 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                   value={formData.name}
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                    errors.name ? 'border-red-500' : 'border-gray-300'
+                    errors.name ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                )}
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Email Address *
                 </label>
                 <input
@@ -124,14 +144,19 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                   value={formData.email}
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                    errors.email ? 'border-red-500' : 'border-gray-300'
+                    errors.email ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                {errors.email && (
+                  <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                )}
               </div>
 
               <div className="md:col-span-2">
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="phone"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Phone Number *
                 </label>
                 <input
@@ -141,20 +166,27 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                   value={formData.phone}
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                    errors.phone ? 'border-red-500' : 'border-gray-300'
+                    errors.phone ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                {errors.phone && (
+                  <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                )}
               </div>
             </div>
           </div>
 
           {/* Shipping Address */}
           <div className="bg-white rounded-lg shadow-md p-6">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Shipping Address</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">
+              Shipping Address
+            </h2>
             <div className="space-y-4">
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="address"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Street Address *
                 </label>
                 <input
@@ -164,15 +196,20 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                   value={formData.address}
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                    errors.address ? 'border-red-500' : 'border-gray-300'
+                    errors.address ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
+                {errors.address && (
+                  <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                )}
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="city"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     City *
                   </label>
                   <input
@@ -182,14 +219,19 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                     value={formData.city}
                     onChange={handleChange}
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                      errors.city ? 'border-red-500' : 'border-gray-300'
+                      errors.city ? "border-red-500" : "border-gray-300"
                     }`}
                   />
-                  {errors.city && <p className="text-red-500 text-sm mt-1">{errors.city}</p>}
+                  {errors.city && (
+                    <p className="text-red-500 text-sm mt-1">{errors.city}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="state"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     State *
                   </label>
                   <input
@@ -199,14 +241,19 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                     value={formData.state}
                     onChange={handleChange}
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                      errors.state ? 'border-red-500' : 'border-gray-300'
+                      errors.state ? "border-red-500" : "border-gray-300"
                     }`}
                   />
-                  {errors.state && <p className="text-red-500 text-sm mt-1">{errors.state}</p>}
+                  {errors.state && (
+                    <p className="text-red-500 text-sm mt-1">{errors.state}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="zipCode" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="zipCode"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     ZIP Code *
                   </label>
                   <input
@@ -216,26 +263,35 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                     value={formData.zipCode}
                     onChange={handleChange}
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                      errors.zipCode ? 'border-red-500' : 'border-gray-300'
+                      errors.zipCode ? "border-red-500" : "border-gray-300"
                     }`}
                   />
-                  {errors.zipCode && <p className="text-red-500 text-sm mt-1">{errors.zipCode}</p>}
+                  {errors.zipCode && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.zipCode}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
           </div>
 
           {/* Payment Information */}
-          <div className="bg-white rounded-lg shadow-md p-6">
+          {/* <div className="bg-white rounded-lg shadow-md p-6">
             <div className="flex items-center gap-2 mb-4">
               <CreditCard className="w-5 h-5 text-gray-700" />
-              <h2 className="text-xl font-semibold text-gray-900">Payment Information</h2>
+              <h2 className="text-xl font-semibold text-gray-900">
+                Payment Information
+              </h2>
               <Lock className="w-4 h-4 text-green-600 ml-auto" />
             </div>
 
             <div className="space-y-4">
               <div>
-                <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                <label
+                  htmlFor="cardNumber"
+                  className="block text-sm font-medium text-gray-700 mb-1"
+                >
                   Card Number *
                 </label>
                 <input
@@ -246,15 +302,22 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                   value={formData.cardNumber}
                   onChange={handleChange}
                   className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                    errors.cardNumber ? 'border-red-500' : 'border-gray-300'
+                    errors.cardNumber ? "border-red-500" : "border-gray-300"
                   }`}
                 />
-                {errors.cardNumber && <p className="text-red-500 text-sm mt-1">{errors.cardNumber}</p>}
+                {errors.cardNumber && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.cardNumber}
+                  </p>
+                )}
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="expiryDate" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="expiryDate"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     Expiry Date *
                   </label>
                   <input
@@ -265,14 +328,21 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                     value={formData.expiryDate}
                     onChange={handleChange}
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                      errors.expiryDate ? 'border-red-500' : 'border-gray-300'
+                      errors.expiryDate ? "border-red-500" : "border-gray-300"
                     }`}
                   />
-                  {errors.expiryDate && <p className="text-red-500 text-sm mt-1">{errors.expiryDate}</p>}
+                  {errors.expiryDate && (
+                    <p className="text-red-500 text-sm mt-1">
+                      {errors.expiryDate}
+                    </p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
+                  <label
+                    htmlFor="cvv"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
                     CVV *
                   </label>
                   <input
@@ -283,14 +353,16 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
                     value={formData.cvv}
                     onChange={handleChange}
                     className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none ${
-                      errors.cvv ? 'border-red-500' : 'border-gray-300'
+                      errors.cvv ? "border-red-500" : "border-gray-300"
                     }`}
                   />
-                  {errors.cvv && <p className="text-red-500 text-sm mt-1">{errors.cvv}</p>}
+                  {errors.cvv && (
+                    <p className="text-red-500 text-sm mt-1">{errors.cvv}</p>
+                  )}
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
           <button
             type="submit"
@@ -303,16 +375,18 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
         {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-lg shadow-md p-6 sticky top-20">
-            <h2 className="text-xl font-bold text-gray-900 mb-4">Order Summary</h2>
+            <h2 className="text-xl font-bold text-gray-900 mb-4">
+              Order Summary
+            </h2>
 
             <div className="space-y-3 mb-4 pb-4 border-b border-gray-200">
-              {cart.map(item => (
+              {cart.map((item) => (
                 <div key={item.id} className="flex justify-between text-sm">
                   <span className="text-gray-600">
                     {item.name} x {item.quantity}
                   </span>
                   <span className="text-gray-900 font-medium">
-                    ${(item.price * item.quantity).toFixed(2)}
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </span>
                 </div>
               ))}
@@ -321,21 +395,21 @@ export function Checkout({ cart, totalPrice, onBack, onSubmit }: CheckoutProps) 
             <div className="space-y-2 mb-4 pb-4 border-b border-gray-200">
               <div className="flex justify-between text-gray-600">
                 <span>Subtotal</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>₹{totalPrice.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Shipping</span>
-                <span>{totalPrice > 100 ? 'FREE' : '$9.99'}</span>
+                <span>{totalPrice > 100 ? "FREE" : "₹9.99"}</span>
               </div>
               <div className="flex justify-between text-gray-600">
                 <span>Tax</span>
-                <span>${(totalPrice * 0.08).toFixed(2)}</span>
+                <span>₹{(totalPrice * 0.08).toFixed(2)}</span>
               </div>
             </div>
 
             <div className="flex justify-between text-xl font-bold text-gray-900">
               <span>Total</span>
-              <span>${finalTotal.toFixed(2)}</span>
+              <span>₹{finalTotal.toFixed(2)}</span>
             </div>
           </div>
         </div>

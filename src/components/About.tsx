@@ -1,4 +1,4 @@
-import { ArrowLeft, Award, Users, Target, Heart } from 'lucide-react';
+import { ArrowLeft, Award, Users, Target, Heart } from "lucide-react";
 
 interface AboutProps {
   onBack: () => void;
@@ -21,7 +21,8 @@ export function About({ onBack }: AboutProps) {
         <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white p-12 text-center">
           <h1 className="text-4xl font-bold mb-4">About TechStore</h1>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-            Your trusted destination for premium tech products and exceptional customer service
+            Your trusted destination for premium tech products and exceptional
+            customer service
           </p>
         </div>
 
@@ -31,14 +32,16 @@ export function About({ onBack }: AboutProps) {
           <div className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Story</h2>
             <p className="text-gray-600 leading-relaxed mb-4">
-              Founded in 2020, TechStore began with a simple mission: to make cutting-edge technology 
-              accessible to everyone. What started as a small online shop has grown into a trusted 
-              destination for tech enthusiasts and professionals alike.
+              Founded in 2020, TechStore began with a simple mission: to make
+              cutting-edge technology accessible to everyone. What started as a
+              small online shop has grown into a trusted destination for tech
+              enthusiasts and professionals alike.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              We carefully curate our product selection to ensure that every item meets our high 
-              standards for quality, innovation, and value. From the latest gadgets to essential 
-              accessories, we're committed to bringing you the best technology has to offer.
+              We carefully curate our product selection to ensure that every
+              item meets our high standards for quality, innovation, and value.
+              From the latest gadgets to essential accessories, we're committed
+              to bringing you the best technology has to offer.
             </p>
           </div>
 
@@ -48,7 +51,9 @@ export function About({ onBack }: AboutProps) {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4">
                 <Award className="w-8 h-8" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Quality First</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Quality First
+              </h3>
               <p className="text-sm text-gray-600">
                 Every product is tested and verified to meet our high standards
               </p>
@@ -58,7 +63,9 @@ export function About({ onBack }: AboutProps) {
               <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-4">
                 <Users className="w-8 h-8" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-2">Customer Focus</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">
+                Customer Focus
+              </h3>
               <p className="text-sm text-gray-600">
                 Your satisfaction is our top priority, always
               </p>
@@ -89,15 +96,21 @@ export function About({ onBack }: AboutProps) {
           <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-8">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
               <div>
-                <div className="text-4xl font-bold text-blue-600 mb-2">50K+</div>
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  50K+
+                </div>
                 <div className="text-gray-600">Happy Customers</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-blue-600 mb-2">500+</div>
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  500+
+                </div>
                 <div className="text-gray-600">Products Available</div>
               </div>
               <div>
-                <div className="text-4xl font-bold text-blue-600 mb-2">4.8/5</div>
+                <div className="text-4xl font-bold text-blue-600 mb-2">
+                  4.8/5
+                </div>
                 <div className="text-gray-600">Average Rating</div>
               </div>
             </div>
