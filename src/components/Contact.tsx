@@ -24,7 +24,6 @@ export function Contact({ onBack }: ContactProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Contact form submitted:", formData);
     setSubmitted(true);
     setTimeout(() => {
       setSubmitted(false);

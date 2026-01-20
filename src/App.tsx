@@ -156,7 +156,6 @@ export default function App() {
 
   const saveProduct = (body: {}) => {
     saveOrUpdateProduct(body).then((res: PostApiResponse) => {
-      console.log("res:", res);
       if (res?.success) {
         fetchProducts();
       }
@@ -251,6 +250,21 @@ export default function App() {
     });
     alert(
       `Thank you for your order, ${formData.name}! Your order has been placed successfully.`,
+    );
+    const phone = "8374868555";
+    const productsList = cart?.map(
+      (c, index) => `${index + 1})${c.name}-${c.quantity} `,
+    );
+    const message = `Hi, I want to buy these Products:
+    ${productsList}
+    Name: ${formData?.name},
+    MobileNo: ${formData?.phone},
+    Address : ${formData?.address}, ${formData?.city}, ${formData?.state},${formData?.zipCode} 
+    `;
+
+    window.open(
+      `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
+      "_blank",
     );
     setCart([]);
     setCurrentView("products");
