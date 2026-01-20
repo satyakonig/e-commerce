@@ -171,18 +171,24 @@ export default function App() {
   // Admin functions
   const addProduct = (product: Omit<Product, "id">) => {
     const newProduct = {
-      ...product,
       id: Math.max(...productList.map((p) => p.id), 0) + 1,
+      ...product,
     };
-    saveProduct(newProduct);
+    let body = {
+      apiKey: "e-com-test",
+      action: "ADD",
+      data: { ...newProduct },
+    };
+    saveProduct(body);
   };
 
   const updateProduct = (id: number, updatedProduct: Omit<Product, "id">) => {
-    setProductList((prev) =>
-      prev.map((product) =>
-        product.id === id ? { ...updatedProduct, id } : product,
-      ),
-    );
+    let body = {
+      apiKey: "e-com-test",
+      action: "UPDATE",
+      data: { id: id, ...updatedProduct },
+    };
+    saveProduct(body);
   };
 
   const deleteProduct = (id: number) => {
@@ -191,7 +197,6 @@ export default function App() {
       action: "DELETE",
       id: id,
     };
-    console.log("body:", body);
     saveProduct(body);
   };
 
