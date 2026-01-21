@@ -251,7 +251,7 @@ export default function App() {
     alert(
       `Thank you for your order, ${formData.name}! Your order has been placed successfully.`,
     );
-    const phone = "8374868555";
+    const phone = "919963877600";
     const productsList = cart?.map(
       (c, index) => `${index + 1})${c.name}-${c.quantity} `,
     );
@@ -262,10 +262,14 @@ export default function App() {
     Address : ${formData?.address}, ${formData?.city}, ${formData?.state},${formData?.zipCode} 
     `;
 
-    window.open(
-      `https://wa.me/${phone}?text=${encodeURIComponent(message)}`,
-      "_blank",
-    );
+    const mobileUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(message)}`;
+    const webUrl = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+
+    if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+      window.location.href = mobileUrl;
+    } else {
+      window.open(webUrl, "_blank");
+    }
     setCart([]);
     setCurrentView("products");
   };
