@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Search, SlidersHorizontal } from "lucide-react";
 import { ProductCard } from "./ProductCard";
 import type { CartItem, Product } from "../App";
+import { ProductCardSkeleton } from "./ProductCardSkeleton";
 
 interface ProductGridProps {
   cartItems: CartItem[];
@@ -16,6 +17,7 @@ interface ProductGridProps {
   onProductClick: (product: Product) => void;
   onAddToCart: (product: Product) => void;
   onUpdateQuantity: (productId: number, quantity: number) => void;
+  isLoading?: boolean;
 }
 
 export function ProductGrid({
@@ -31,6 +33,7 @@ export function ProductGrid({
   onProductClick,
   onAddToCart,
   onUpdateQuantity,
+  isLoading = false,
 }: ProductGridProps) {
   const [priceRange, setPriceRange] = useState<[number, number]>([0, 2000]);
   const [showFilters, setShowFilters] = useState(false);
@@ -166,7 +169,13 @@ export function ProductGrid({
       </div>
 
       {/* Products Grid */}
-      {filteredProducts.length > 0 ? (
+      {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+        </div>
+      ) : filteredProducts.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {filteredProducts.map((product) => (
             <ProductCard

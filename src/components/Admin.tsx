@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ArrowLeft, Plus, Edit2, Trash2, Save, X } from "lucide-react";
+import { ArrowLeft, Plus, Edit2, Trash2, Save, X, Loader2 } from "lucide-react";
 import type { Product } from "../App";
 
 interface AdminProps {
@@ -29,6 +29,7 @@ export function Admin({
     description: "",
     stock: 0,
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -67,15 +68,13 @@ export function Admin({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
+    setIsSubmitting(true);
     if (formMode === "add") {
       onAddProduct(formData);
-      alert("Product added successfully!");
     } else if (formMode === "edit" && editingProductId) {
       onUpdateProduct(editingProductId, formData);
-      alert("Product updated successfully!");
     }
-
+    setIsSubmitting(false);
     setFormMode(null);
     setEditingProductId(null);
   };
@@ -88,7 +87,6 @@ export function Admin({
   const handleDelete = (id: number, name: string) => {
     if (confirm(`Are you sure you want to delete "${name}"?`)) {
       onDeleteProduct(id);
-      alert("Product deleted successfully!");
     }
   };
 
@@ -250,15 +248,26 @@ export function Admin({
             <div className="flex gap-4">
               <button
                 type="submit"
-                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                disabled={isSubmitting}
+                className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Save className="w-5 h-5" />
-                {formMode === "add" ? "Add Product" : "Save Changes"}
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    {formMode === "add" ? "Adding..." : "Saving..."}
+                  </>
+                ) : (
+                  <>
+                    <Save className="w-5 h-5" />
+                    {formMode === "add" ? "Add Product" : "Save Changes"}
+                  </>
+                )}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                disabled={isSubmitting}
+                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Cancel
               </button>

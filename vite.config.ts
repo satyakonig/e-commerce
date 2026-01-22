@@ -46,7 +46,6 @@ export default defineConfig({
       "input-otp@1.4.2": "input-otp",
       "embla-carousel-react@8.6.0": "embla-carousel-react",
       "cmdk@1.1.1": "cmdk",
-      "class-variance-authority@0.7.1": "class-variance-authority",
       "@radix-ui/react-slot@1.1.2": "@radix-ui/react-slot",
       "@radix-ui/react-dialog@1.1.6": "@radix-ui/react-dialog",
       "@": path.resolve(__dirname, "./src"),
