@@ -135,10 +135,10 @@ export function Cart({
                 <span>Shipping</span>
                 <span>{totalPrice > 100 ? "FREE" : "₹50"}</span>
               </div>
-              <div className="flex justify-between text-gray-600">
+              {/* <div className="flex justify-between text-gray-600">
                 <span>Tax (estimated)</span>
                 <span>₹{(totalPrice * 0.08).toFixed(2)}</span>
-              </div>
+              </div> */}
             </div>
 
             <div className="flex justify-between text-xl font-bold text-gray-900 mb-6">

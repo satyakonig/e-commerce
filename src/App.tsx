@@ -6,8 +6,7 @@ import { Cart } from "./components/Cart";
 import { Checkout } from "./components/Checkout";
 import { About } from "./components/About";
 import { Contact } from "./components/Contact";
-import { Admin } from "./components/Admin";
-import { getProducts, saveOrUpdateProduct } from "./util/Api";
+import { getProducts } from "./util/Api";
 import { Toaster } from "sonner";
 import { toast } from "sonner";
 
@@ -35,8 +34,7 @@ type ViewType =
   | "cart"
   | "checkout"
   | "about"
-  | "contact"
-  | "admin";
+  | "contact";
 
 export default function App() {
   const [currentView, setCurrentView] = useState<ViewType>("products");
@@ -73,75 +71,10 @@ export default function App() {
     }
   };
 
-  const saveProduct = async (body: {}) => {
-    try {
-      setIsLoading(true);
-      let res = await saveOrUpdateProduct(body);
-      if (res?.success) {
-        if (body.action === "UPDATE") {
-          toast.success("Product updated successfully!", {
-            description: `${body?.data?.name} has been updated.`,
-          });
-        }
-        if (body.action === "ADD") {
-          toast.success("Product added successfully!", {
-            description: `${body?.data?.name} has been added to your inventory.`,
-          });
-        }
-        if (body.action === "DELETE") {
-          toast.success(
-            "Product deleted successfully!",
-            //   {
-            //   description: `${name} has been removed from your inventory.`,
-            // }
-          );
-        }
-      }
-    } catch (err) {
-      toast.error("Something went wrong!");
-    } finally {
-      const res = await fetchProducts();
-      setProductList(res);
-      setIsLoading(false);
-    }
-  };
-
   const categories = [
     "All",
     ...Array.from(new Set(productList.map((p) => p.category))),
   ];
-
-  // Admin functions
-  const addProduct = (product: Omit<Product, "id">) => {
-    const newProduct = {
-      id: Math.max(...productList.map((p) => p.id), 0) + 1,
-      ...product,
-    };
-    let body = {
-      apiKey: "e-com-test",
-      action: "ADD",
-      data: { ...newProduct },
-    };
-    saveProduct(body);
-  };
-
-  const updateProduct = (id: number, updatedProduct: Omit<Product, "id">) => {
-    let body = {
-      apiKey: "e-com-test",
-      action: "UPDATE",
-      data: { id: id, ...updatedProduct },
-    };
-    saveProduct(body);
-  };
-
-  const deleteProduct = (id: number) => {
-    let body = {
-      apiKey: "e-com-test",
-      action: "DELETE",
-      id: id,
-    };
-    saveProduct(body);
-  };
 
   const addToCart = (product: Product, quantity: number = 1) => {
     setCart((prevCart) => {
@@ -224,7 +157,6 @@ export default function App() {
         onLogoClick={() => setCurrentView("products")}
         onAboutClick={() => setCurrentView("about")}
         onContactClick={() => setCurrentView("contact")}
-        onAdminClick={() => setCurrentView("admin")}
         currentView={currentView}
       />
 
@@ -283,16 +215,6 @@ export default function App() {
 
         {currentView === "contact" && (
           <Contact onBack={() => setCurrentView("products")} />
-        )}
-
-        {currentView === "admin" && (
-          <Admin
-            products={productList}
-            onAddProduct={addProduct}
-            onUpdateProduct={updateProduct}
-            onDeleteProduct={deleteProduct}
-            onBack={() => setCurrentView("products")}
-          />
         )}
       </main>
     </div>

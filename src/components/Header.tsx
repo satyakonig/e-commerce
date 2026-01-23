@@ -8,7 +8,6 @@ interface HeaderProps {
   currentView: string;
   onAboutClick?: () => void;
   onContactClick?: () => void;
-  onAdminClick?: () => void;
 }
 
 export function Header({
@@ -18,7 +17,6 @@ export function Header({
   currentView,
   onAboutClick,
   onContactClick,
-  onAdminClick,
 }: HeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -73,16 +71,6 @@ export function Header({
               }`}
             >
               Contact
-            </button>
-            <button
-              onClick={onAdminClick}
-              className={`transition-colors ${
-                currentView === "admin"
-                  ? "text-blue-600"
-                  : "text-gray-600 hover:text-gray-900"
-              }`}
-            >
-              Admin
             </button>
           </nav>
 
@@ -148,16 +136,6 @@ export function Header({
                 }`}
               >
                 Contact
-              </button>
-              <button
-                onClick={() => handleNavClick(onAdminClick)}
-                className={`text-left px-4 py-2 rounded-lg transition-colors ${
-                  currentView === "admin"
-                    ? "bg-blue-50 text-blue-600 font-medium"
-                    : "text-gray-600 hover:bg-gray-50"
-                }`}
-              >
-                Admin
               </button>
             </div>
           </nav>

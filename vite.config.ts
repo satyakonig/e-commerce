@@ -10,8 +10,8 @@ export default defineConfig({
       registerType: "autoUpdate",
       injectRegister: "auto",
       manifest: {
-        name: "My Awesome App",
-        short_name: "MyApp",
+        name: "E-Commerce",
+        short_name: "E Com",
         description: "My React Vite PWA",
         start_url: "/",
         display: "standalone",
