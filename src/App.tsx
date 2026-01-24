@@ -54,6 +54,7 @@ export default function App() {
         setProductList(res);
       } catch {
         toast.error("Something went wrong!");
+        setProductList([]);
       } finally {
         setIsLoading(false);
       }
