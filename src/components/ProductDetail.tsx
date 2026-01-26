@@ -9,6 +9,7 @@ import {
   Shield,
 } from "lucide-react";
 import type { CartItem, Product } from "../App";
+import { getDriveImageUrl } from "../common/utils";
 
 interface ProductDetailProps {
   cartItems: CartItem[];
@@ -46,7 +47,7 @@ export function ProductDetail({
         {/* Product Image */}
         <div className="bg-gray-100 rounded-lg overflow-hidden aspect-square">
           <img
-            src={product.image}
+            src={getDriveImageUrl(product.image)}
             alt={product.name}
             className="w-full h-full object-cover"
           />

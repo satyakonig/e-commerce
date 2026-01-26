@@ -1,5 +1,6 @@
 import { Trash2, Minus, Plus, ShoppingBag } from "lucide-react";
 import type { CartItem } from "../App";
+import { getDriveImageUrl } from "../common/utils";
 
 interface CartProps {
   items: CartItem[];
@@ -55,7 +56,7 @@ export function Cart({
               {/* Product Image */}
               <div className="w-full sm:w-32 h-32 bg-gray-100 rounded-lg overflow-hidden flex-shrink-0">
                 <img
-                  src={item.image}
+                  src={getDriveImageUrl(item.image)}
                   alt={item.name}
                   className="w-full h-full object-cover"
                 />

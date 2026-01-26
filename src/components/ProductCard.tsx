@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { ShoppingCart, Minus, Plus } from "lucide-react";
 import type { CartItem, Product } from "../App";
+import { getDriveImageUrl } from "../common/utils";
 
 interface ProductCardProps {
   cartItems: CartItem[];
@@ -31,10 +32,11 @@ export function ProductCard({
         className="relative aspect-square overflow-hidden bg-gray-100"
       >
         <img
-          src={product.image}
-          alt={product.name}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          src={getDriveImageUrl(product.image)}
+          alt={product?.name}
+          referrerPolicy="no-referrer"
         />
+
         {product.stock < 20 && (
           <div className="absolute top-2 right-2 bg-red-500 text-white text-xs px-2 py-1 rounded">
             Low Stock

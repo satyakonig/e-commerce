@@ -65,7 +65,7 @@ export default function App() {
 
   const fetchProducts = async () => {
     try {
-      const res = await getProducts();
+      const res = await getProducts({ mode: "products" });
       return res;
     } catch (err) {
       throw err; // important
